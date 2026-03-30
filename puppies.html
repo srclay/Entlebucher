@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Puppies — Entlebucher Mountain Dog Club of Great Britain</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1a3a2a;
+    --forest-deep: #0f2318;
+    --meadow: #3d6b4f;
+    --sage: #7a9e8a;
+    --cream: #f5f0e8;
+    --cream-dark: #e8e0d2;
+    --warmth: #c8956c;
+    --warmth-bright: #d4a574;
+    --earth: #8b6f4e;
+    --charcoal: #2a2a28;
+    --white: #fefdfb;
+    --text: #2a2a28;
+    --text-light: #5a5a56;
+    --gold: #b8963e;
+    --gold-light: #d4b668;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 0 48px; height: 72px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(26, 58, 42, 0.92);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(122, 158, 138, 0.15);
+    transition: all 0.4s ease;
+  }
+  nav.scrolled { height: 60px; background: rgba(15, 35, 24, 0.97); }
+
+  .nav-brand {
+    display: flex; align-items: center; gap: 14px; text-decoration: none;
+  }
+  .nav-crest {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-weight: 800; font-size: 16px;
+    color: var(--forest-deep); flex-shrink: 0;
+  }
+  .nav-brand-text {
+    font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600;
+    color: var(--cream); letter-spacing: 0.5px; line-height: 1.2;
+  }
+  .nav-brand-text span {
+    display: block; font-family: 'DM Sans', sans-serif; font-size: 10px;
+    font-weight: 400; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--sage); margin-top: 2px;
+  }
+  .nav-links {
+    display: flex; align-items: center; gap: 6px; list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none; color: rgba(245, 240, 232, 0.75);
+    font-size: 13px; font-weight: 400; letter-spacing: 0.3px;
+    padding: 8px 14px; border-radius: 6px; transition: all 0.25s;
+  }
+  .nav-links a:hover { color: var(--cream); background: rgba(255,255,255,0.08); }
+  .nav-links a.active { color: var(--cream); background: rgba(255,255,255,0.06); }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--gold), var(--warmth)) !important;
+    color: var(--forest-deep) !important; font-weight: 600 !important;
+    padding: 9px 20px !important;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(184, 150, 62, 0.3); }
+  .mobile-toggle {
+    display: none; flex-direction: column; gap: 5px; cursor: pointer;
+    padding: 8px; background: none; border: none;
+  }
+  .mobile-toggle span {
+    display: block; width: 24px; height: 2px; background: var(--cream);
+    border-radius: 1px; transition: all 0.3s;
+  }
+
+  /* ─── PAGE HERO ─── */
+  .page-hero {
+    padding: 160px 48px 80px;
+    background: var(--forest-deep);
+    position: relative; overflow: hidden;
+  }
+  .page-hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 70% 40%, rgba(61, 107, 79, 0.2), transparent),
+      radial-gradient(ellipse 50% 70% at 20% 80%, rgba(200, 149, 108, 0.08), transparent),
+      linear-gradient(170deg, var(--forest-deep) 0%, #1a3a2a 60%, #2a5040 100%);
+  }
+  .page-hero-pattern {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(255,255,255,0.5) 60px, rgba(255,255,255,0.5) 61px),
+      repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(255,255,255,0.5) 60px, rgba(255,255,255,0.5) 61px);
+  }
+  .page-hero-inner {
+    max-width: 1320px; margin: 0 auto; position: relative; z-index: 2;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .page-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 4.5vw, 60px); font-weight: 700;
+    color: var(--cream); line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 24px;
+  }
+  .page-hero h1 em { font-style: italic; color: var(--warmth-bright); }
+  .page-hero-desc {
+    font-size: 17px; line-height: 1.7; color: rgba(245, 240, 232, 0.6);
+    max-width: 500px;
+  }
+  .breadcrumb {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 24px;
+    font-size: 13px; color: var(--sage);
+  }
+  .breadcrumb a { color: var(--sage); text-decoration: none; transition: color 0.2s; }
+  .breadcrumb a:hover { color: var(--cream); }
+  .breadcrumb svg { width: 12px; height: 12px; stroke: var(--sage); fill: none; stroke-width: 2; }
+
+  .page-hero-image {
+    border-radius: 20px; overflow: hidden; aspect-ratio: 4/3;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .page-hero-image img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+
+  /* ─── CONTENT SECTIONS ─── */
+  .content-section {
+    padding: 100px 48px;
+  }
+  .content-section.alt { background: var(--white); }
+  .content-inner {
+    max-width: 860px; margin: 0 auto;
+  }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 600; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--meadow); margin-bottom: 20px;
+  }
+  .section-label::before {
+    content: ''; display: block; width: 32px; height: 1.5px; background: var(--meadow);
+  }
+
+  .intro-block {
+    max-width: 1320px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
+  }
+
+  .intro-block h2 {
+    font-family: 'Playfair Display', serif; font-size: clamp(28px, 3vw, 40px);
+    font-weight: 700; color: var(--forest); line-height: 1.2; letter-spacing: -0.3px;
+    margin-bottom: 24px;
+  }
+  .intro-block h2 em { font-style: italic; color: var(--warmth); }
+  .intro-block p, .content-inner p {
+    font-size: 16px; line-height: 1.8; color: var(--text-light); margin-bottom: 20px;
+  }
+  .intro-block p strong, .content-inner p strong { color: var(--text); }
+
+  .email-cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 16px 28px; background: var(--forest);
+    color: var(--cream); font-size: 14px; font-weight: 500;
+    text-decoration: none; border-radius: 12px; margin-top: 12px;
+    transition: all 0.3s;
+  }
+  .email-cta:hover {
+    background: var(--forest-deep);
+    transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+  .email-cta svg { width: 18px; height: 18px; stroke: var(--gold-light); fill: none; stroke-width: 1.8; }
+
+  /* ─── GUIDE CARDS ─── */
+  .guide-section { padding: 100px 48px; background: var(--forest-deep); }
+  .guide-section-inner { max-width: 1320px; margin: 0 auto; }
+  .guide-header {
+    text-align: center; max-width: 600px; margin: 0 auto 64px;
+  }
+  .guide-header .section-label { color: var(--sage); }
+  .guide-header .section-label::before { background: var(--sage); }
+  .guide-header h2 {
+    font-family: 'Playfair Display', serif; font-size: clamp(32px, 3.5vw, 48px);
+    font-weight: 700; color: var(--cream); line-height: 1.15; margin-bottom: 16px;
+  }
+  .guide-header p {
+    font-size: 16px; line-height: 1.7; color: rgba(245, 240, 232, 0.5);
+  }
+
+  .guide-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+  }
+
+  .guide-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(122, 158, 138, 0.1);
+    border-radius: 20px; padding: 40px 36px;
+    transition: all 0.35s; position: relative; overflow: hidden;
+  }
+  .guide-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--warmth));
+    opacity: 0; transition: opacity 0.35s;
+  }
+  .guide-card:hover {
+    background: rgba(255,255,255,0.07);
+    transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+  }
+  .guide-card:hover::before { opacity: 1; }
+
+  .guide-card-num {
+    font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700;
+    color: rgba(184, 150, 62, 0.15); line-height: 1; margin-bottom: 16px;
+  }
+  .guide-card h3 {
+    font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600;
+    color: var(--cream); margin-bottom: 14px;
+  }
+  .guide-card p {
+    font-size: 14px; line-height: 1.75; color: rgba(245, 240, 232, 0.5);
+  }
+
+  /* ─── IMPORTANT NOTE ─── */
+  .note-block {
+    background: rgba(184, 150, 62, 0.08);
+    border: 1px solid rgba(184, 150, 62, 0.15);
+    border-radius: 16px; padding: 28px 32px;
+    margin: 32px 0; display: flex; gap: 16px; align-items: flex-start;
+  }
+  .note-block svg {
+    width: 22px; height: 22px; stroke: var(--gold); fill: none;
+    stroke-width: 2; flex-shrink: 0; margin-top: 2px;
+  }
+  .note-block p {
+    font-size: 14px; line-height: 1.7; color: var(--text-light); margin: 0;
+  }
+
+  /* ─── CTA SECTION ─── */
+  .cta {
+    padding: 100px 48px; background: var(--forest); position: relative; overflow: hidden;
+  }
+  .cta::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 20%, rgba(184, 150, 62, 0.08), transparent),
+      radial-gradient(ellipse 60% 60% at 20% 80%, rgba(200, 149, 108, 0.06), transparent);
+  }
+  .cta-inner {
+    max-width: 700px; margin: 0 auto; text-align: center; position: relative; z-index: 1;
+  }
+  .cta h2 {
+    font-family: 'Playfair Display', serif; font-size: clamp(32px, 3.5vw, 48px);
+    font-weight: 700; color: var(--cream); line-height: 1.15; margin-bottom: 16px;
+  }
+  .cta h2 em { font-style: italic; color: var(--warmth-bright); }
+  .cta p {
+    font-size: 16px; line-height: 1.7; color: rgba(245, 240, 232, 0.5);
+    max-width: 520px; margin: 0 auto 36px;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 32px;
+    background: linear-gradient(135deg, var(--gold), var(--warmth));
+    color: var(--forest-deep); font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600; letter-spacing: 0.5px;
+    text-decoration: none; border-radius: 12px; transition: all 0.3s;
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px); box-shadow: 0 8px 30px rgba(184, 150, 62, 0.35);
+  }
+  .btn-primary svg { width: 16px; height: 16px; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--forest-deep); padding: 72px 48px 36px;
+    border-top: 1px solid rgba(122, 158, 138, 0.1);
+  }
+  .footer-inner { max-width: 1320px; margin: 0 auto; }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px; padding-bottom: 48px;
+    border-bottom: 1px solid rgba(122, 158, 138, 0.08);
+  }
+  .footer-brand p {
+    font-size: 14px; line-height: 1.7; color: rgba(245, 240, 232, 0.4);
+    margin-top: 16px; max-width: 300px;
+  }
+  .footer-col h5 {
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--sage); margin-bottom: 20px;
+  }
+  .footer-col a {
+    display: block; font-size: 14px; color: rgba(245, 240, 232, 0.5);
+    text-decoration: none; padding: 6px 0; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--cream); }
+  .footer-bottom {
+    display: flex; align-items: center; justify-content: space-between; padding-top: 32px;
+  }
+  .footer-bottom p { font-size: 12px; color: rgba(245, 240, 232, 0.25); }
+  .footer-bottom-links { display: flex; gap: 24px; }
+  .footer-bottom-links a {
+    font-size: 12px; color: rgba(245, 240, 232, 0.3);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .footer-bottom-links a:hover { color: var(--cream); }
+
+  /* ─── ANIMATIONS ─── */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .mobile-toggle { display: flex; }
+    .page-hero { padding: 120px 24px 60px; }
+    .page-hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .content-section, .guide-section, .cta { padding: 64px 24px; }
+    .intro-block { grid-template-columns: 1fr; gap: 40px; }
+    .guide-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .footer-top { grid-template-columns: 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="./" class="nav-brand">
+    <div class="nav-crest">E</div>
+    <div class="nav-brand-text">Entlebucher Club<span>Great Britain</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="./">Home</a></li>
+    <li><a href="./#about">About</a></li>
+    <li><a href="./#breed">The Breed</a></li>
+    <li><a href="./health.html">Health</a></li>
+    <li><a href="./#events">Events</a></li>
+    <li><a href="./puppies.html" class="active">Puppies</a></li>
+    <li><a href="./photo-gallery.html">Gallery</a></li>
+    <li><a href="./contact.html">Contact</a></li>
+    <li><a href="./#membership" class="nav-cta">Join the Club</a></li>
+  </ul>
+  <button class="mobile-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-pattern"></div>
+  <div class="page-hero-inner" style="animation: fadeInUp 0.8s ease both;">
+    <div>
+      <div class="breadcrumb">
+        <a href="./">Home</a>
+        <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        <span>Puppies</span>
+      </div>
+      <h1>Finding Your <em>Entlebucher</em> Puppy</h1>
+      <p class="page-hero-desc">Could you give an Entlebucher a loving home? There has never been a better time to join our puppy waiting list — with recent litters and more planned, waiting times are shorter than they've been in years.</p>
+    </div>
+    <div class="page-hero-image">
+      <img src="https://entlebucher.co.uk/wp-content/uploads/2019/01/2.jpg" alt="Entlebucher puppies" />
+    </div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="content-section">
+  <div class="intro-block reveal">
+    <div>
+      <div class="section-label">Getting Started</div>
+      <h2>Join Our <em>Puppy</em> Waiting List</h2>
+      <p>Our puppy list is open to new joiners who would like either a UK-born puppy, or perhaps to import from one of the reputable European breeders we have good contacts with.</p>
+      <p>If you're interested in the breed but would like more information before committing, why not contact us to arrange a meeting with an Entlebucher and their owner? Club members are always happy to meet prospective owners to talk about the breed and answer any questions.</p>
+      <a href="mailto:puppies@entlebucher.co.uk" class="email-cta">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        puppies@entlebucher.co.uk
+      </a>
+    </div>
+    <div>
+      <div class="note-block">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div>
+          <p><strong>Before applying, please consider:</strong> Entlebuchers develop a very strong bond with their principal carer and appreciate human company. They are not suited to being left alone for long periods. They enjoy free-running and, as intelligent working dogs, thrive on agility trials and flyball. The Club reserves the right to make full enquiries and visit the future home to assess suitability.</p>
+        </div>
+      </div>
+      <div style="border-radius: 16px; overflow: hidden; margin-top: 24px; box-shadow: 0 12px 40px rgba(0,0,0,0.1);">
+        <img src="https://entlebucher.co.uk/wp-content/uploads/2019/11/Izzy-3-1-200x300.jpg" alt="Entlebucher puppy" style="width: 100%; height: 320px; object-fit: cover;" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUPPY CARE GUIDE -->
+<section class="guide-section">
+  <div class="guide-section-inner">
+    <div class="guide-header reveal">
+      <div class="section-label">Puppy Care Guide</div>
+      <h2>Raising Your Entlebucher</h2>
+      <p>Tips on diet, training, exercise and more to give your new puppy the best start in life.</p>
+    </div>
+    <div class="guide-grid">
+      <div class="guide-card reveal">
+        <div class="guide-card-num">01</div>
+        <h3>Diet & Nutrition</h3>
+        <p>Your puppy will likely have been fed 4 meals a day since weaning — continue this until 12–14 weeks old, then reduce to 3 meals until 6 months, and 2 meals from 6 months onwards. Always follow the manufacturer's guidelines for age and weight. A good test: you should be able to feel but not see their ribs. Complete pet foods are most beneficial; some human food can be toxic to dogs. Fresh water should always be available.</p>
+      </div>
+      <div class="guide-card reveal">
+        <div class="guide-card-num">02</div>
+        <h3>Chewing & Teething</h3>
+        <p>Teething is uncomfortable, so a solid chew is invaluable. At the first sign of chewing your arm or furniture, quickly substitute a chew — they'll learn fast. First teeth are usually lost at around 3–4 months; don't worry if you don't find them. Offering chews throughout their life keeps teeth clean and breath fresh. Bones are not advisable.</p>
+      </div>
+      <div class="guide-card reveal">
+        <div class="guide-card-num">03</div>
+        <h3>Sleeping</h3>
+        <p>Provide a bed in a quiet area where they can feel safe and retreat from activity — this should be respected. Everything is new to them, so avoid bombarding them with too many experiences at once. Puppies suddenly decide they're tired and need a sleep. Please leave them; waking them for visitors will upset them and make them miserable.</p>
+      </div>
+      <div class="guide-card reveal">
+        <div class="guide-card-num">04</div>
+        <h3>Training</h3>
+        <p>Basic training starts from day one. Training classes are excellent for socialisation — Entlebuchers can be cautious of strangers, so early exposure is key. Take it one step at a time; the first things to learn are their name and "no!" Be consistent: don't allow anything on day one that you wouldn't want at a year old. Never play tug of war with puppies.</p>
+      </div>
+      <div class="guide-card reveal">
+        <div class="guide-card-num">05</div>
+        <h3>Toilet Training</h3>
+        <p>Take your puppy outside first thing in the morning, after each meal, after play, and before bed — hourly if you're at home. Watch for circling or nose-to-ground sniffing. Use the same door each time so they learn to wait there. Pick a single word for their eliminations and stick to it. Entlebuchers are usually quick to house train.</p>
+      </div>
+      <div class="guide-card reveal">
+        <div class="guide-card-num">06</div>
+        <h3>Exercise</h3>
+        <p>During the first year, most energy goes into growing. Long walks are unnecessary — play is often sufficient. From 6 months to a year, a 30-minute walk is plenty. Protect soft bones and joints: don't let your puppy use stairs, jump from the car, or start agility until at least 12 months. Mental stimulation — hiding toys, new games — can tire them as much as physical exercise.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAR TRAVEL NOTE -->
+<section class="content-section alt">
+  <div class="content-inner reveal">
+    <div class="section-label">Safety</div>
+    <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(28px, 3vw, 36px); font-weight: 700; color: var(--forest); line-height: 1.2; margin-bottom: 20px;">Car Travel</h2>
+    <p>For the safety of both dog and passengers, and to comply with the Highway Code, your Entlebucher should travel in a crate or behind a dog guard in the boot, or on a seat secured with a dog seatbelt. These are inexpensive and easily attached to the dog's harness.</p>
+    <div class="note-block">
+      <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <p><strong>Important:</strong> Seatbelts are not suitable for use with a collar as a sudden stop will jerk their neck. Always use a harness.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-inner reveal">
+    <h2>Ready to Welcome an <em>Entlebucher</em>?</h2>
+    <p>Get in touch with our Puppy Secretary to join the waiting list or arrange to meet an Entlebucher and their owner.</p>
+    <a href="mailto:puppies@entlebucher.co.uk" class="btn-primary">
+      Contact Puppy Secretary
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="./" class="nav-brand" style="text-decoration: none;">
+          <div class="nav-crest">E</div>
+          <div class="nav-brand-text">Entlebucher Club<span>Great Britain</span></div>
+        </a>
+        <p>The Entlebucher Mountain Dog Club of Great Britain — championing the health, welfare, and promotion of the breed since 2009.</p>
+      </div>
+      <div class="footer-col">
+        <h5>The Club</h5>
+        <a href="./">Home</a><a href="./#about">About</a><a href="./#events">Events</a><a href="./#membership">Membership</a>
+      </div>
+      <div class="footer-col">
+        <h5>The Breed</h5>
+        <a href="./#breed">Breed Info</a><a href="./health.html">Health</a><a href="./puppies.html">Puppies</a>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <a href="./photo-gallery.html">Gallery</a><a href="./contact.html">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Entlebucher Mountain Dog Club of Great Britain. All rights reserved.</p>
+      <div class="footer-bottom-links"><a href="#">Privacy</a><a href="#">Legal</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

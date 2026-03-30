@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health Testing — Entlebucher Mountain Dog Club of Great Britain</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1a3a2a; --forest-deep: #0f2318; --meadow: #3d6b4f;
+    --sage: #7a9e8a; --cream: #f5f0e8; --cream-dark: #e8e0d2;
+    --warmth: #c8956c; --warmth-bright: #d4a574; --earth: #8b6f4e;
+    --charcoal: #2a2a28; --white: #fefdfb; --text: #2a2a28;
+    --text-light: #5a5a56; --gold: #b8963e; --gold-light: #d4b668;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif; color: var(--text);
+    background: var(--cream); overflow-x: hidden; -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 0 48px; height: 72px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(26, 58, 42, 0.92);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(122, 158, 138, 0.15); transition: all 0.4s ease;
+  }
+  nav.scrolled { height: 60px; background: rgba(15, 35, 24, 0.97); }
+  .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+  .nav-crest {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-weight: 800; font-size: 16px;
+    color: var(--forest-deep);
+  }
+  .nav-brand-text { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: var(--cream); letter-spacing: 0.5px; line-height: 1.2; }
+  .nav-brand-text span { display: block; font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 2.5px; text-transform: uppercase; color: var(--sage); margin-top: 2px; }
+  .nav-links { display: flex; align-items: center; gap: 6px; list-style: none; }
+  .nav-links a { text-decoration: none; color: rgba(245, 240, 232, 0.75); font-size: 13px; font-weight: 400; letter-spacing: 0.3px; padding: 8px 14px; border-radius: 6px; transition: all 0.25s; }
+  .nav-links a:hover { color: var(--cream); background: rgba(255,255,255,0.08); }
+  .nav-links a.active { color: var(--cream); background: rgba(255,255,255,0.06); }
+  .nav-cta { background: linear-gradient(135deg, var(--gold), var(--warmth)) !important; color: var(--forest-deep) !important; font-weight: 600 !important; padding: 9px 20px !important; }
+  .mobile-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
+  .mobile-toggle span { display: block; width: 24px; height: 2px; background: var(--cream); border-radius: 1px; }
+
+  /* PAGE HERO */
+  .page-hero {
+    padding: 160px 48px 80px; background: var(--forest-deep); position: relative; overflow: hidden;
+  }
+  .page-hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 70% 40%, rgba(61, 107, 79, 0.2), transparent),
+      radial-gradient(ellipse 50% 70% at 20% 80%, rgba(200, 149, 108, 0.08), transparent),
+      linear-gradient(170deg, var(--forest-deep) 0%, #1a3a2a 60%, #2a5040 100%);
+  }
+  .page-hero-pattern {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(255,255,255,0.5) 60px, rgba(255,255,255,0.5) 61px),
+      repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(255,255,255,0.5) 60px, rgba(255,255,255,0.5) 61px);
+  }
+  .page-hero-inner {
+    max-width: 1320px; margin: 0 auto; position: relative; z-index: 2;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .page-hero h1 {
+    font-family: 'Playfair Display', serif; font-size: clamp(40px, 4.5vw, 60px);
+    font-weight: 700; color: var(--cream); line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 24px;
+  }
+  .page-hero h1 em { font-style: italic; color: var(--warmth-bright); }
+  .page-hero-desc { font-size: 17px; line-height: 1.7; color: rgba(245, 240, 232, 0.6); max-width: 500px; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; font-size: 13px; color: var(--sage); }
+  .breadcrumb a { color: var(--sage); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--cream); }
+  .breadcrumb svg { width: 12px; height: 12px; stroke: var(--sage); fill: none; stroke-width: 2; }
+  .page-hero-image { border-radius: 20px; overflow: hidden; aspect-ratio: 4/3; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .page-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* INTRO */
+  .content-section { padding: 100px 48px; }
+  .content-section.alt { background: var(--white); }
+  .content-inner { max-width: 860px; margin: 0 auto; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 600; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--meadow); margin-bottom: 20px;
+  }
+  .section-label::before { content: ''; display: block; width: 32px; height: 1.5px; background: var(--meadow); }
+
+  .content-inner h2 {
+    font-family: 'Playfair Display', serif; font-size: clamp(28px, 3vw, 40px);
+    font-weight: 700; color: var(--forest); line-height: 1.2; margin-bottom: 24px;
+  }
+  .content-inner h2 em { font-style: italic; color: var(--warmth); }
+  .content-inner p { font-size: 16px; line-height: 1.8; color: var(--text-light); margin-bottom: 20px; }
+  .content-inner p strong { color: var(--text); }
+
+  .warning-block {
+    background: rgba(200, 80, 60, 0.06); border: 1px solid rgba(200, 80, 60, 0.15);
+    border-radius: 16px; padding: 28px 32px; margin: 32px 0;
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .warning-block svg { width: 22px; height: 22px; stroke: #c0503c; fill: none; stroke-width: 2; flex-shrink: 0; margin-top: 2px; }
+  .warning-block p { font-size: 14px; line-height: 1.7; color: var(--text-light); margin: 0; }
+
+  /* HEALTH CARDS */
+  .health-section { padding: 100px 48px; background: var(--forest-deep); }
+  .health-section-inner { max-width: 1320px; margin: 0 auto; }
+  .health-header { text-align: center; max-width: 600px; margin: 0 auto 64px; }
+  .health-header .section-label { color: var(--sage); }
+  .health-header .section-label::before { background: var(--sage); }
+  .health-header h2 {
+    font-family: 'Playfair Display', serif; font-size: clamp(32px, 3.5vw, 48px);
+    font-weight: 700; color: var(--cream); line-height: 1.15; margin-bottom: 16px;
+  }
+  .health-header p { font-size: 16px; line-height: 1.7; color: rgba(245, 240, 232, 0.5); }
+
+  .health-grid { display: flex; flex-direction: column; gap: 16px; }
+
+  .health-card {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(122, 158, 138, 0.1);
+    border-radius: 20px; padding: 40px 44px; transition: all 0.35s; position: relative; overflow: hidden;
+    display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: start;
+  }
+  .health-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+    background: linear-gradient(180deg, var(--gold), var(--warmth)); opacity: 0; transition: opacity 0.35s;
+  }
+  .health-card:hover { background: rgba(255,255,255,0.06); transform: translateX(4px); }
+  .health-card:hover::before { opacity: 1; }
+
+  .health-icon {
+    width: 56px; height: 56px; border-radius: 16px;
+    background: rgba(184, 150, 62, 0.1);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .health-icon svg { width: 26px; height: 26px; stroke: var(--gold-light); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  .health-card h3 {
+    font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600;
+    color: var(--cream); margin-bottom: 12px;
+  }
+  .health-card p { font-size: 14px; line-height: 1.75; color: rgba(245, 240, 232, 0.5); margin: 0; }
+  .health-card .learn-more {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 16px;
+    font-size: 13px; font-weight: 600; color: var(--gold-light); text-decoration: none; transition: gap 0.2s;
+  }
+  .health-card .learn-more:hover { gap: 10px; }
+  .health-card .learn-more svg { width: 14px; height: 14px; stroke: var(--gold-light); fill: none; stroke-width: 2; }
+
+  /* CTA */
+  .cta { padding: 100px 48px; background: var(--forest); position: relative; overflow: hidden; }
+  .cta::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 80% 20%, rgba(184, 150, 62, 0.08), transparent),
+      radial-gradient(ellipse 60% 60% at 20% 80%, rgba(200, 149, 108, 0.06), transparent);
+  }
+  .cta-inner { max-width: 700px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+  .cta h2 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 3.5vw, 48px); font-weight: 700; color: var(--cream); line-height: 1.15; margin-bottom: 16px; }
+  .cta h2 em { font-style: italic; color: var(--warmth-bright); }
+  .cta p { font-size: 16px; line-height: 1.7; color: rgba(245, 240, 232, 0.5); max-width: 520px; margin: 0 auto 36px; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px;
+    background: linear-gradient(135deg, var(--gold), var(--warmth)); color: var(--forest-deep);
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    text-decoration: none; border-radius: 12px; transition: all 0.3s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(184, 150, 62, 0.35); }
+
+  /* FOOTER */
+  footer { background: var(--forest-deep); padding: 72px 48px 36px; border-top: 1px solid rgba(122, 158, 138, 0.1); }
+  .footer-inner { max-width: 1320px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(122, 158, 138, 0.08); }
+  .footer-brand p { font-size: 14px; line-height: 1.7; color: rgba(245, 240, 232, 0.4); margin-top: 16px; max-width: 300px; }
+  .footer-col h5 { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--sage); margin-bottom: 20px; }
+  .footer-col a { display: block; font-size: 14px; color: rgba(245, 240, 232, 0.5); text-decoration: none; padding: 6px 0; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--cream); }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 32px; }
+  .footer-bottom p { font-size: 12px; color: rgba(245, 240, 232, 0.25); }
+  .footer-bottom-links { display: flex; gap: 24px; }
+  .footer-bottom-links a { font-size: 12px; color: rgba(245, 240, 232, 0.3); text-decoration: none; }
+  .footer-bottom-links a:hover { color: var(--cream); }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 1024px) {
+    nav { padding: 0 24px; } .nav-links { display: none; } .mobile-toggle { display: flex; }
+    .page-hero { padding: 120px 24px 60px; } .page-hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .content-section, .health-section, .cta { padding: 64px 24px; }
+    .health-card { grid-template-columns: 1fr; gap: 16px; padding: 32px 28px; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .footer-top { grid-template-columns: 1fr; } .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="./" class="nav-brand">
+    <div class="nav-crest">E</div>
+    <div class="nav-brand-text">Entlebucher Club<span>Great Britain</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="./">Home</a></li>
+    <li><a href="./#about">About</a></li>
+    <li><a href="./#breed">The Breed</a></li>
+    <li><a href="./health.html" class="active">Health</a></li>
+    <li><a href="./#events">Events</a></li>
+    <li><a href="./puppies.html">Puppies</a></li>
+    <li><a href="./photo-gallery.html">Gallery</a></li>
+    <li><a href="./contact.html">Contact</a></li>
+    <li><a href="./#membership" class="nav-cta">Join the Club</a></li>
+  </ul>
+  <button class="mobile-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-pattern"></div>
+  <div class="page-hero-inner" style="animation: fadeInUp 0.8s ease both;">
+    <div>
+      <div class="breadcrumb">
+        <a href="./">Home</a>
+        <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        <span>Health</span>
+      </div>
+      <h1><em>Health</em> Testing</h1>
+      <p class="page-hero-desc">Every breed has its particular health issues. Responsible breeders reduce risk by ensuring their breeding dogs have had all recommended health checks — and so should you when choosing a puppy.</p>
+    </div>
+    <div class="page-hero-image">
+      <img src="https://entlebucher.co.uk/wp-content/uploads/2019/09/Molly-Duchess-from-Torfheide-7-months-2-1.jpg" alt="Entlebucher Mountain Dog" />
+    </div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="content-section">
+  <div class="content-inner reveal">
+    <div class="section-label">Our Commitment</div>
+    <h2>Rigorous Testing for <em>Healthier</em> Dogs</h2>
+    <p>Here at the EMDCGB, we take health testing very seriously. We insist our breeders' dogs have passed all of the tests required by the Swiss Breed Club, which has overall responsibility for the breed. Any breeder approved by the EMDCGB will be happy to share the results of the tests for their puppies' parents with you on request.</p>
+
+    <div class="warning-block">
+      <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <p><strong>Buyer beware:</strong> If you are buying a puppy and the breeder is unable or unwilling to show the results of all required tests for both parents, we would ask you to think carefully before proceeding — or speak to us for advice.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HEALTH CONDITIONS -->
+<section class="health-section">
+  <div class="health-section-inner">
+    <div class="health-header reveal">
+      <div class="section-label">Health Conditions</div>
+      <h2>What We Test For</h2>
+      <p>Summaries of the health conditions for which the Club requires UK breeding dogs to test, following the requirements of the Swiss Breed Club.</p>
+    </div>
+    <div class="health-grid">
+
+      <div class="health-card reveal">
+        <div class="health-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 5C5.636 5 1 12 1 12s4.636 7 11 7 11-7 11-7-4.636-7-11-7z"/></svg>
+        </div>
+        <div>
+          <h3>Progressive Retinal Atrophy</h3>
+          <p>PRA is a range of eye conditions in which the retina degenerates, leading to blindness. Only one type is known within Entlebuchers and all breeding dogs are tested. Any dog shown to have inherited the defective gene from both parents — and who will at some point develop the condition — will never be used for breeding by EMDCGB members.</p>
+          <a href="https://entlebucher.co.uk/health/progressive-retinal-atrophy/" class="learn-more">Learn more <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="health-card reveal">
+        <div class="health-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 5C5.636 5 1 12 1 12s4.636 7 11 7 11-7 11-7-4.636-7-11-7z"/></svg>
+        </div>
+        <div>
+          <h3>Cataracts</h3>
+          <p>It's unusual for a cataract to be a significant problem for a dog, and small cataracts are often barely noticeable. Because some forms found in Entlebuchers are thought to be hereditary, some countries exclude all affected dogs from breeding. We follow those countries (including Switzerland) that allow breeding from a dog with a single small cataract in one eye.</p>
+          <a href="https://entlebucher.co.uk/health/cataracts/" class="learn-more">Learn more <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="health-card reveal">
+        <div class="health-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 5C5.636 5 1 12 1 12s4.636 7 11 7 11-7 11-7-4.636-7-11-7z"/></svg>
+        </div>
+        <div>
+          <h3>Glaucoma</h3>
+          <p>Glaucoma is the build-up of fluid in the eye due to drainage problems, which can lead to painful headaches, blindness, and usually loss of the eye. There is no definitive genetic test, so the best option is a gonioscopy — a painless eye test that provides a strong indicator of risk. The UK Club works with other European clubs to assess the risk for breeding dogs.</p>
+          <a href="https://entlebucher.co.uk/health/glaucoma/" class="learn-more">Learn more <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="health-card reveal">
+        <div class="health-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div>
+          <h3>Heart</h3>
+          <p>In order to prevent genetic heart conditions being passed on and to protect the health and welfare of breeding dogs, any dogs which show a heart murmur do not go on to breed. All breeding dogs are screened by a qualified veterinary cardiologist.</p>
+          <a href="https://entlebucher.co.uk/health/heart/" class="learn-more">Learn more <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="health-card reveal">
+        <div class="health-icon">
+          <svg viewBox="0 0 24 24"><path d="M18 20V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14"/><path d="M2 20h20"/><path d="M14 12h.01"/></svg>
+        </div>
+        <div>
+          <h3>Hips</h3>
+          <p>Entlebuchers can suffer from Hip Dysplasia, like many breeds. While it can be hereditary, it can also be caused by injury, over-exercise at a young age, or diet. Dogs in the UK breeding programme are X-rayed at around 15 months and scored from A (best) to E (worst). Breeding from dogs graded D or E is not acceptable. To date, no UK Entlebucher has scored worse than B2.</p>
+          <a href="https://entlebucher.co.uk/health/hips/" class="learn-more">Learn more <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="health-card reveal">
+        <div class="health-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <h3>Ectopic Ureter</h3>
+          <p>Ectopic ureter is a condition where the line from each kidney to the bladder enters in the wrong place, causing frequent infections, incontinence, and potentially death. Female puppies with this condition are unlikely to survive early puppyhood. It can be detected through ultrasound. The UK Club does not breed from affected dogs.</p>
+          <a href="https://entlebucher.co.uk/health/ectopic-ureter/" class="learn-more">Learn more <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-inner reveal">
+    <h2>Questions About <em>Health</em>?</h2>
+    <p>Our Breed Health Coordinator is always happy to discuss health testing and answer any questions you may have.</p>
+    <a href="mailto:health@entlebucher.co.uk" class="btn-primary">
+      Contact Health Coordinator
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="./" class="nav-brand" style="text-decoration: none;">
+          <div class="nav-crest">E</div>
+          <div class="nav-brand-text">Entlebucher Club<span>Great Britain</span></div>
+        </a>
+        <p>The Entlebucher Mountain Dog Club of Great Britain — championing the health, welfare, and promotion of the breed since 2009.</p>
+      </div>
+      <div class="footer-col"><h5>The Club</h5><a href="./">Home</a><a href="./#about">About</a><a href="./#events">Events</a><a href="./#membership">Membership</a></div>
+      <div class="footer-col"><h5>The Breed</h5><a href="./#breed">Breed Info</a><a href="./health.html">Health</a><a href="./puppies.html">Puppies</a></div>
+      <div class="footer-col"><h5>Resources</h5><a href="./photo-gallery.html">Gallery</a><a href="./contact.html">Contact</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Entlebucher Mountain Dog Club of Great Britain. All rights reserved.</p>
+      <div class="footer-bottom-links"><a href="#">Privacy</a><a href="#">Legal</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) { setTimeout(() => entry.target.classList.add('visible'), i * 80); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
